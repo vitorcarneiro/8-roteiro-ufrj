@@ -28,7 +28,8 @@ typedef enum
 tipoErros
 CodificarBase16 (byte * /* (E) */, unsigned long long /* (E) */, char * /* (S) */);
 
-
+tipoErros
+DecodificarBase16 (char * /* (E) */, byte * /* (S) */, unsigned long long * /* (S) */);
 
 
 /*$RCSfile$*/

@@ -121,6 +121,7 @@ AULA0706OBJS = aula0701.o aula0706.o libmonitor.a
 AULA08 = aula0802
 
 AULA0802OBJS = aula0801.o aula0802.o
+AULA0803OBJS = aula0801.o aula0803.o libbase.a
 # -- Roteiro 8 /\ ---------------------------------------------------------------------------------
 # /\ OBJS MACROS/\ --------------------------------------------------------------------------------
 
@@ -188,7 +189,8 @@ EXECS = aula0101\
 		aula0704\
 		aula0705\
 		aula0706\
-		aula0802
+		aula0802\
+		aula0803
 
 
 LIBS =	libmatematicarecursao.a\
@@ -427,6 +429,10 @@ libbase.a: $(LIBBASEOBJS)
 aula0802: $(AULA0802OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0802OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
+
+aula0803: $(AULA0803OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0803OBJS) -L. -lbase
+	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)	
 # -- Roteiro 8 /\ ----------------------------------------------------------------------------------
 
 .PHONY: clean clean-all clean-objs clean-freebsd clean-linux clean-gcc clean-clang clean-ansi clean-c89 clean-c90 clean-c99 clean-c11
