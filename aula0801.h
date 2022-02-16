@@ -25,11 +25,20 @@ typedef enum
 	memoriaInsuficiente
 } tipoErros;
 
+typedef enum
+{
+	alfabetoNormal,
+	alfabetoEstendido
+} tipoAlfabetoBase32;
+
+
 tipoErros
 CodificarBase16 (byte * /* (E) */, unsigned long long /* (E) */, char * /* (S) */);
 
 tipoErros
 DecodificarBase16 (char * /* (E) */, byte * /* (S) */, unsigned long long * /* (S) */);
 
+tipoErros
+CodificarBase32 (byte * /* (E) */, unsigned long long /* (E) */, tipoAlfabetoBase32 /* (E) */, char* /* (S) */);
 
 /*$RCSfile$*/

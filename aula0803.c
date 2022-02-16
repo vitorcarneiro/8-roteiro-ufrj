@@ -1,22 +1,16 @@
-
-/* Universidade Federal do Rio de Janeiro
+/* 
+Universidade Federal do Rio de Janeiro
 Escola Politecnica
-Departamento de Eletronica e de Computacao 
-EEL270 - Computacao II - Turma 2021/1 
+Departamento de Eletronica e de Computacao
+EEL270 - Computacao II - Turma 2021/2
 Prof. Marcelo Luiz Drumond Lanza
-Autor: Mikaela Rikberg Alves
-Descricao: Implementa a funcao decodificar base 16. 
+Autor: Vitor Carneiro Silva de Oliveira
+Descricao: programa de testes da função DodificarBase32
 
-Author:$
-$Date: 2021/10/02 19:04:37 $ 
-$Log: aula0803.c,v $
-Revision 1.1  2021/10/02 19:04:37  mikaela.alves
-Initial revision
-
-
- 
+$Author$
+$Date$
+$Log$
 */
-
 
 #ifdef __linux__
 #define _XOPEN_SOURCE 600
@@ -26,7 +20,6 @@ Initial revision
 #define __ISO_C_VISIBLE         1999
 #define __LONG_LONG_SUPPORTED
 #endif
-
 
 #include "aula0801.h"
 
@@ -42,7 +35,6 @@ Initial revision
 #define NUMERO_ARGUMENTOS_INVALIDO			    2	
 #define VALOR_MAXIMO_EXCEDIDO				    3
 #define MEMORIA_INSUFICIENTE                    4
-
 
 int main (int argc, char *argv [])
 {
@@ -69,7 +61,7 @@ int main (int argc, char *argv [])
 	
 	if( entrada == NULL)
 	{
-		printf (" memoria insuficiente");
+		printf ("Memoria insuficiente\n");
 		exit (MEMORIA_INSUFICIENTE);
 	}
 
@@ -80,11 +72,11 @@ int main (int argc, char *argv [])
 	if(vetorBytes == NULL)
 	{
 		free(entrada);
-		printf ("\n memoria insuficiente");
+		printf ("Memoria insuficiente\n");
 		exit (MEMORIA_INSUFICIENTE);
 	}
 /*------------------------------------------------------------------------*/
-	for(indice=2; indice<argc; indice++)
+	for(indice = 2; indice < argc; indice++)
 	{
 		if(argv[indice][0] == '-')
 		{	
@@ -98,7 +90,7 @@ int main (int argc, char *argv [])
 		{
 			free(entrada);
 			free(vetorBytes);
-			printf("valor maximo por caractere eh 255");
+			printf("valor maximo por caractere eh 255\n");
 			exit (VALOR_MAXIMO_EXCEDIDO);
 		}
 	}
@@ -107,9 +99,8 @@ int main (int argc, char *argv [])
 
 	printf("Decodificacao:\n");
 	for (indice = 0; indice < numeroBytes[0]; indice++)
-	{
 		printf("%d ", vetorBytes[indice]);
-	}
+	
 	printf("\n");
 
 	free(entrada);

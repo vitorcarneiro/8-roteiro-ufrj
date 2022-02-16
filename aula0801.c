@@ -86,5 +86,76 @@ DecodificarBase16 (char *entrada, byte *vetorBytes, unsigned long long *numeroBy
     return ok;
 }
 
+tipoErros
+CodificarBase32 (byte * vetorBytes, unsigned long long numeroBytes, tipoAlfabetoBase32 alfabeto , char * saida)
+{
+	char alfabetoNormalBase32[32] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','2','3','4','5','6','7'};
+	char alfabetoEstendidoBase32[32] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V'};
+	
+	char *bin;
+	int indice;
+	byte numero = 0, resto;
+	char string[5];
+/*------------------------ Alocando memoria -----------------------*/
+	bin = malloc(sizeof(char[numeroBytes * 8 + 1]));
+
+	if(bin == NULL)
+	{
+		printf (" memoria insuficiente");
+		return memoriaInsuficiente;
+	}
+/*-----------------------------------------------------------------*/		
+	if(strlen(bin) % 5 != 0)
+    {
+		resto = strlen(bin) % 5;	
+		
+		for (indice=0; indice < 5 - resto; indice++)
+        {
+			string[indice] = '0';	
+		}
+		string[indice] = '\0';
+		strcat(bin,string);
+	}
+	
+	if(alfabeto == alfabetoNormal)
+	{ 
+		for(indice=0; indice < strlen(bin); indice += 5){
+			numero =  (bin[indice] - '0') * 16;
+			numero += (bin[indice + 1] - '0') * 8;
+			numero += (bin[indice + 2] - '0') * 4;
+			numero += (bin[indice + 3] - '0') * 2;
+			numero += (bin[indice + 4] - '0') * 1;
+			
+			saida[indice / 5] = alfabetoNormalBase32[numero]; 
+		}
+		saida[indice / 5] = '\0';
+	}
+
+	if(alfabeto == alfabetoEstendido)
+	{ 
+		for(indice = 0; indice < strlen(bin); indice += 5){
+			numero =  (bin[indice] - '0') * 16;
+			numero += (bin[indice + 1] - '0') * 8;
+			numero += (bin[indice + 2] - '0') * 4;
+			numero += (bin[indice + 3] - '0') * 2;
+			numero += (bin[indice + 4] - '0') * 1;
+		    saida[indice / 5] = alfabetoEstendidoBase32[numero]; 
+		}
+		saida[indice / 5] = '\0';
+	}
+	
+	if(strlen(saida) % 8 != 0){
+		resto = strlen(saida) % 8;	
+		
+		for(indice=0; indice < 8-resto; indice++){
+			string[indice] = '=';	
+		}
+		string[indice] = '\0';
+		strcat(saida,string);
+	}
+
+	
+    return ok;
+}
 
 /*$RCSfile$*/
