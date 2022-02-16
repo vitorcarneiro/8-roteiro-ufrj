@@ -3,39 +3,45 @@
 # Departamento de Eletronica e de Computacao
 # EEL270 - Computacao II - Turma 2021/2
 # Prof. Marcelo Luiz Drumond Lanza
-# Autor: Vitor Carneiro Silva de Oliveira
-# Descricao: Arquivo de dependencias para FreeBSD
+# Autor: <nome completo>
+# Descricao: Arquivo de dependencias para Linux
 
 # $Author$
 # $Date$
 # $Log$
 
-OS = `uname -s`
+OS = $(shell uname -s)
 
 CC = gcc
 
-.ifdef CLANG
+ifeq ($(cc), CLANG)
 CC = clang
-.endif
+endif
 
 LD = $(CC)
 
 DIALETO = ansi
 STANDARD = -ansi
 
-.ifdef C89
+ifeq ($(dialeto), C89)
 DIALETO = c89
 STANDARD = -std=c89
-.elif C90
+endif
+
+ifeq ($(dialeto), C90)
 DIALETO = c90
 STANDARD = -std=c90
-.elif C99
+endif
+
+ifeq ($(dialeto), C99)
 DIALETO = c99
 STANDARD = -std=c99
-.elif C11
+endif
+
+ifeq ($(dialeto), C11)
 DIALETO = c11
 STANDARD = -std=c11
-.endif
+endif
 
 CFLAGS = -Wall $(STANDARD)
 LFLAGS = -Wall
@@ -116,6 +122,12 @@ AULA0704OBJS = aula0701.o aula0704.o libmonitor.a
 AULA0705OBJS = aula0701.o aula0705.o libmonitor.a
 AULA0706OBJS = aula0701.o aula0706.o libmonitor.a
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
+
+# -- Roteiro 8 \/ ---------------------------------------------------------------------------------
+AULA08 = aula0802
+
+AULA0802OBJS = aula0801.o aula0802.o
+# -- Roteiro 8 /\ ---------------------------------------------------------------------------------
 # /\ OBJS MACROS/\ --------------------------------------------------------------------------------
 
 
@@ -136,7 +148,13 @@ LIBMATEMATICA = libmatematica.a
 LIBMONITOROBJS = aula0701.o
 LIBMONITOR = libmonitor.a
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
+
+# -- Roteiro 8 \/ ---------------------------------------------------------------------------------
+LIBBASEOBJS = aula0801.o
+LIBBASE = libbase.a
+# -- Roteiro 8 /\ ---------------------------------------------------------------------------------
 # /\ LIBS MACROS/\ --------------------------------------------------------------------------------
+
 
 
 EXECS = aula0101\
@@ -176,8 +194,8 @@ EXECS = aula0101\
 		aula0703\
 		aula0704\
 		aula0705\
-		aula0706
-
+		aula0706\
+		aula0802
 
 LIBS =	libmatematicarecursao.a\
 	libmatematicadowhile.a\
@@ -186,8 +204,8 @@ LIBS =	libmatematicarecursao.a\
 	libmonitor.a\
 	libbase.a\
 	libmatematica.a\
-	libmonitor.a
-
+	libmonitor.a\
+	libbase.a
 
 ALL = $(EXECS) $(LIBS)
 
@@ -263,7 +281,6 @@ aula0302c: $(AULA0302COBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0302COBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 
-	
 aula0302d: $(AULA0302DOBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0302DOBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
@@ -372,7 +389,7 @@ aula0604: $(AULA0604OBJS)
 aula0605: $(AULA0605OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0605OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
-	
+
 aula0606: $(AULA0606OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0606OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
@@ -399,11 +416,22 @@ aula0704: $(AULA0704OBJS)
 aula0705: $(AULA0705OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0705OBJS) -L. -lmonitor
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
-	
+
 aula0706: $(AULA0706OBJS)
 	$(LD) $(LFLAGS) -o $@ $(AULA0706OBJS) -L. -lmonitor
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 # -- Roteiro 7 /\ ----------------------------------------------------------------------------------
+
+# -- Roteiro 8 \/ ----------------------------------------------------------------------------------
+aula08: $(AULA08)
+
+libbase.a: $(LIBBASEOBJS)
+	ar -r -c $@ $(LIBBASEOBJS)
+
+aula0802: $(AULA0802OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0802OBJS)
+	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
+# -- Roteiro 8 /\ ----------------------------------------------------------------------------------
 
 
 .PHONY: clean clean-all clean-objs clean-freebsd clean-linux clean-gcc clean-clang clean-ansi clean-c89 clean-c90 clean-c99 clean-c11

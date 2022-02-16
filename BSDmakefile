@@ -116,6 +116,12 @@ AULA0704OBJS = aula0701.o aula0704.o libmonitor.a
 AULA0705OBJS = aula0701.o aula0705.o libmonitor.a
 AULA0706OBJS = aula0701.o aula0706.o libmonitor.a
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
+
+# -- Roteiro 8 \/ ---------------------------------------------------------------------------------
+AULA08 = aula0802
+
+AULA0802OBJS = aula0801.o aula0802.o
+# -- Roteiro 8 /\ ---------------------------------------------------------------------------------
 # /\ OBJS MACROS/\ --------------------------------------------------------------------------------
 
 
@@ -136,6 +142,11 @@ LIBMATEMATICA = libmatematica.a
 LIBMONITOROBJS = aula0701.o
 LIBMONITOR = libmonitor.a
 # -- Roteiro 7 /\ ---------------------------------------------------------------------------------
+
+# -- Roteiro 8 \/ ---------------------------------------------------------------------------------
+LIBBASEOBJS = aula0801.o
+LIBBASE = libbase.a
+# -- Roteiro 8 /\ ---------------------------------------------------------------------------------
 # /\ LIBS MACROS/\ --------------------------------------------------------------------------------
 
 
@@ -176,7 +187,8 @@ EXECS = aula0101\
 		aula0703\
 		aula0704\
 		aula0705\
-		aula0706
+		aula0706\
+		aula0802
 
 
 LIBS =	libmatematicarecursao.a\
@@ -186,7 +198,8 @@ LIBS =	libmatematicarecursao.a\
 	libmonitor.a\
 	libbase.a\
 	libmatematica.a\
-	libmonitor.a
+	libmonitor.a\
+	libbase.a
 
 
 ALL = $(EXECS) $(LIBS)
@@ -405,6 +418,16 @@ aula0706: $(AULA0706OBJS)
 	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
 # -- Roteiro 7 /\ ----------------------------------------------------------------------------------
 
+# -- Roteiro 8 \/ ----------------------------------------------------------------------------------
+aula08: $(AULA08)
+
+libbase.a: $(LIBBASEOBJS)
+	ar -r -c $@ $(LIBBASEOBJS)
+
+aula0802: $(AULA0802OBJS)
+	$(LD) $(LFLAGS) -o $@ $(AULA0802OBJS)
+	cp -f $@ $@-$(OS)-$(CC)-$(DIALETO)
+# -- Roteiro 8 /\ ----------------------------------------------------------------------------------
 
 .PHONY: clean clean-all clean-objs clean-freebsd clean-linux clean-gcc clean-clang clean-ansi clean-c89 clean-c90 clean-c99 clean-c11
 
