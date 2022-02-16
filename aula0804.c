@@ -55,7 +55,7 @@ int main (int argc, char *argv [])
 	
 	if(argv[1][0] == '-')
 	{	
-		printf ("Argumento caractere invalido.\n");
+		printf ("Argumento com caractere invalido.\n");
 		exit (ARGUMENTO_INVALIDO);
 	}
 	  

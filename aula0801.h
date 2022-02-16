@@ -41,4 +41,8 @@ DecodificarBase16 (char * /* (E) */, byte * /* (S) */, unsigned long long * /* (
 tipoErros
 CodificarBase32 (byte * /* (E) */, unsigned long long /* (E) */, tipoAlfabetoBase32 /* (E) */, char* /* (S) */);
 
+tipoErros
+DecodificarBase32 (char * /* (E) */, tipoAlfabetoBase32 /* (E) */, byte * /* (S) */, unsigned long long * /* (S) */);
+
+
 /*$RCSfile$*/

@@ -158,4 +158,90 @@ CodificarBase32 (byte * vetorBytes, unsigned long long numeroBytes, tipoAlfabeto
     return ok;
 }
 
+tipoErros
+DecodificarBase32 (char * entrada, tipoAlfabetoBase32 alfabeto, byte * vetorBytes, unsigned long long * numeroBytes)
+{
+	char alfabetoNormalBase32[32] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','2','3','4','5','6','7'};
+	char alfabetoEstendidoBase32[32] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V'};
+	int indice, cont, tamanhoVetor;
+	char *decimal;
+
+	tamanhoVetor = strlen((char*)entrada);
+	
+	int resto, auxiliar;
+	char stringAux[tamanhoVetor][6];
+	char *bin;
+
+/*------------------------ Alocando memoria -----------------------*/
+	bin = malloc(sizeof(char[tamanhoVetor * 8 + 1]));
+
+	if(bin == NULL)
+	{
+		printf ("Memoria insuficiente\n");
+		return memoriaInsuficiente;
+	}
+	
+	decimal = malloc(sizeof(char[tamanhoVetor + 1]));
+
+	if(decimal == NULL)
+	{
+		printf ("Memoria insuficiente\n");
+		return memoriaInsuficiente;
+	}
+/*-----------------------------------------------------------------*/	
+	bin[0] = '\0';
+	
+	if (alfabeto == alfabetoNormal)
+	{
+		for (indice = 0; indice < tamanhoVetor; indice++ )
+			for (cont = 0; cont < 32; cont++)
+				if(entrada[indice] == alfabetoNormalBase32[cont])
+					decimal[indice] = cont;
+					
+		for(cont = 0; cont < tamanhoVetor; cont++)
+        {
+			stringAux[cont][5] = '\0';
+
+			for(indice = 4; indice >= 0; indice--)
+			{
+				resto = decimal[cont] % 2;
+				auxiliar = (decimal[cont] - resto) / 2;
+				decimal[cont] = auxiliar; 
+		
+				if(resto == 0 || resto == 1 )
+					stringAux[cont][indice] = resto + '0';
+			}
+			strcat(bin,stringAux[cont]);
+		}
+		
+		numeroBytes[0] = (int) strlen( (char*) vetorBytes);
+	}
+
+	if(alfabeto == alfabetoEstendido)
+	{
+		for (indice = 0; indice < tamanhoVetor; indice++ )
+			for (cont = 0; cont < 32; cont++)
+				if (entrada[indice] == alfabetoEstendidoBase32[cont])
+					decimal[indice] = cont;
+			
+		for (cont = 0; cont < tamanhoVetor; cont++)
+        {
+			for (indice = 5; indice >= 0; indice++)
+			{
+				resto = decimal[cont] % 2;
+				auxiliar = (decimal[cont] - resto) / 2;
+				decimal[cont] = auxiliar; 
+		
+				if(resto == 0 || resto == 1 )
+					stringAux[cont][indice] = resto + '0';
+			}
+			strcat(bin,stringAux[cont]);
+		}
+
+		numeroBytes[0] = (int)strlen((char*)vetorBytes);
+	}
+
+    return ok;
+}
+
 /*$RCSfile$*/
