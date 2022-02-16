@@ -67,7 +67,7 @@ int main (int argc, char *argv [])
 	if(argv[1][0] != '0' && argv[1][0] != '1')
 	{
 		printf ("Argumento invalido.\n");
-		exit (ALFABETO_INVALIDO);
+		exit (ARGUMENTO_INVALIDO);
 	}
 
 /*------------------------  Alocando memoria   ------------------------------*/

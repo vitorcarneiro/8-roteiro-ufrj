@@ -31,6 +31,11 @@ typedef enum
 	alfabetoEstendido
 } tipoAlfabetoBase32;
 
+typedef enum 
+{
+	desabilitado,
+	habilitado
+} tipoFinalLinha;
 
 tipoErros
 CodificarBase16 (byte * /* (E) */, unsigned long long /* (E) */, char * /* (S) */);
@@ -44,5 +49,7 @@ CodificarBase32 (byte * /* (E) */, unsigned long long /* (E) */, tipoAlfabetoBas
 tipoErros
 DecodificarBase32 (char * /* (E) */, tipoAlfabetoBase32 /* (E) */, byte * /* (S) */, unsigned long long * /* (S) */);
 
+tipoErros
+CodificarBase64 (byte * /* (E) */, unsigned long long /* (E) */, tipoFinalLinha /* (E) */, char * /*(S) */);
 
 /*$RCSfile$*/

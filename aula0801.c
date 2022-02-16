@@ -244,4 +244,85 @@ DecodificarBase32 (char * entrada, tipoAlfabetoBase32 alfabeto, byte * vetorByte
     return ok;
 }
 
+tipoErros
+CodificarBase64 (byte * vetorBytes, unsigned long long numeroBytes, tipoFinalLinha finalLinha, char * saida)
+{
+	char alfabeto[64] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/'};
+	char *bin;
+	int indice, indiceLinha, cont;
+	byte numero = 0, resto;
+	char string[6];
+	int conta;
+
+/*------------------------ Alocando memoria -----------------------*/
+	bin = malloc(sizeof(char[numeroBytes * 8 + 1]));
+
+	if(bin == NULL)
+	{
+		printf (" memoria insuficiente");
+		return memoriaInsuficiente;
+	}
+
+/*-----------------------------------------------------------------*/
+
+	conta = strlen(bin) % 24;
+	if (conta != 0)
+    {
+		if(strlen(bin)%6 != 0){
+			resto = strlen(bin)%6;	
+			
+			for(indice=0; indice < 6-resto; indice++)
+				string[indice] = '0';	
+	
+			string[indice] = '\0';
+			strcat(bin,string);
+		}
+	}
+
+	for (indice=0; indice < strlen(bin); indice += 6)
+    {
+		numero = (bin[indice] - '0') * 32;
+		numero += (bin[indice + 1] - '0') * 16;
+		numero += (bin[indice + 2] - '0') * 8;
+		numero += (bin[indice + 3] - '0') * 4;
+		numero += (bin[indice + 4] - '0') * 2;
+		numero += (bin[indice + 5] - '0') * 1;
+		
+		saida[indice / 6] = alfabeto[numero]; 
+	}
+	saida[indice / 6] = '\0';
+	
+	conta = strlen(saida) % 4;
+	
+	if(conta != 0)
+    {
+		resto = strlen(saida) % 4;	
+		for(indice = 0; indice < 4 - resto; indice++)
+			string[indice] = '=';	
+		
+		string[indice] = '\0';
+		strcat(saida,string);
+	}
+    	
+	if(finalLinha == habilitado)
+	{
+		indiceLinha = 1;
+		for(indice = 0; indice < strlen(saida); indice++)
+        {
+			if(indiceLinha == 77)
+			{
+				saida[strlen(saida) + 1] = '\0';
+				for(cont = strlen(saida); cont > indice; cont--)
+					saida[cont] = saida[cont - 1];
+				
+				saida[indice] = '\n';
+				indiceLinha = 0;
+			}
+			indiceLinha++;
+		}
+	}
+    return ok;
+}
+
+
 /*$RCSfile$*/
