@@ -325,4 +325,67 @@ CodificarBase64 (byte * vetorBytes, unsigned long long numeroBytes, tipoFinalLin
 }
 
 
+tipoErros
+DecodificarBase64 (char *entrada, tipoFinalLinha finalLinha, byte *vetorBytes, unsigned long long *numeroBytes)
+{
+	char alfabeto[64] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/'};
+	int indice, cont, tamanhoVetor;
+	char *decimal;
+
+	tamanhoVetor = strlen((char*)entrada);
+	
+	int resto, auxiliar;
+	char stringAux[tamanhoVetor][7];
+	char *bin;
+
+/*------------------------ Alocando memoria -----------------------*/
+
+	bin = malloc(sizeof(char[tamanhoVetor * 8 + 1]));
+
+	if(bin == NULL)
+	{
+		printf ("Memoria insuficiente\n");
+		return memoriaInsuficiente;
+	}
+	
+	decimal = malloc(sizeof(char[tamanhoVetor+1]));
+
+	if(decimal == NULL)
+	{
+		printf ("Memoria insuficiente\n");
+		return memoriaInsuficiente;
+	}
+/*-----------------------------------------------------------------*/	
+	bin[0] = '\0';
+	
+
+	for(indice = 0; indice < strlen(entrada); indice++ )
+		if(entrada[indice] == '\n')
+			for(cont=indice;   cont < strlen(entrada); cont++ )
+				entrada[cont] = entrada[cont+1];
+						
+	for(indice = 0; indice < tamanhoVetor; indice++ )
+		for(cont = 0; cont<64; cont++)
+			if(entrada[indice] == alfabeto[cont])
+				decimal[indice] = cont;
+
+	for(cont = 0; cont < tamanhoVetor; cont++)
+		stringAux[cont][6] = '\0';
+
+		for(indice = 5; indice >= 0; indice--)
+		{
+			resto = decimal[cont] % 2;
+			auxiliar = (decimal[cont] - resto) / 2;
+			decimal[cont] = auxiliar; 
+	
+			if(resto == 0 || resto ==1 )
+				stringAux[cont][indice] = resto + '0';
+		}
+		strcat(bin, stringAux[cont]);
+	
+	numeroBytes[0] = (int)strlen((char*)vetorBytes);
+
+    return ok;
+}
+
 /*$RCSfile$*/
