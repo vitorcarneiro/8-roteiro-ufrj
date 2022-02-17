@@ -16,6 +16,8 @@ $Log$
 #define _AULA08_  "@(#)aula08.h $Revision$"
 #endif
 
+#define COMPRIMENTO_BUFFER   100
+
 typedef unsigned char byte;
 
 typedef enum
